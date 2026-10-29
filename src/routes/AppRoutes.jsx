@@ -1,0 +1,62 @@
+import { Navigate, Route, Routes } from 'react-router-dom'
+import DashboardLayout from '../layouts/DashboardLayout'
+import DashboardPage from '../pages/DashboardPage'
+import AirQualityPage from '../pages/AirQualityPage'
+import MapPage from '../pages/MapPage'
+import CarbonCalculatorPage from '../pages/CarbonCalculatorPage'
+import AlertTestPage from '../pages/AlertTestPage'
+import CitySimulatorPage from '../pages/CitySimulatorPage'
+import SettingsPage from '../pages/SettingsPage'
+import NotFoundPage from '../pages/NotFoundPage'
+import LoginPage from '../pages/auth/LoginPage'
+import RegisterPage from '../pages/auth/RegisterPage'
+import PublicOnlyRoute from './PublicOnlyRoute'
+import ProtectedRoute from './ProtectedRoute'
+
+function AppRoutes() {
+  return (
+    <Routes>
+      {/* Public Routes */}
+      <Route
+        path="/login"
+        element={
+          <PublicOnlyRoute>
+            <LoginPage />
+          </PublicOnlyRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicOnlyRoute>
+            <RegisterPage />
+          </PublicOnlyRoute>
+        }
+      />
+
+      {/* Protected Routes */}
+      <Route
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/" element={<Navigate to="/air-quality" replace />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/air-quality" element={<AirQualityPage />} />
+        <Route path="/map-intelligence" element={<MapPage />} />
+        <Route path="/alerts" element={<AlertTestPage />} />
+        <Route path="/carbon-calculator" element={<CarbonCalculatorPage />} />
+        <Route path="/city-simulator" element={<CitySimulatorPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/chat" element={<Navigate to="/alerts" replace />} />
+      </Route>
+
+      {/* 404 Route */}
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  )
+}
+
+export default AppRoutes
